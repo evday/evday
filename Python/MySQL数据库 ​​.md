@@ -1,6 +1,6 @@
-### MySQL数据库 :four_leaf_clover:
+# MySQL数据库 :four_leaf_clover:
 
-#### :one: 库操作:deciduous_tree:
+## :one: 库操作:deciduous_tree:
 
 ```python
 show databases (查看所有的数据库) 
@@ -9,13 +9,13 @@ DROP DATABASES 数据库名
 ALERT DATABASE 数据库名 charset utf8  (修改数据库字符编码)
 ```
 
-#### :two: 存储引擎:deciduous_tree: 
+## :two: 存储引擎:deciduous_tree: 
 
-1. ##### 什么是存储引擎
+1. ### 什么是存储引擎
 
    现实生活中我们使用文件存储不同类型的文件，每种文件类型对应各自不同的处理机制，如比如处理文本用txt类型，处理表格用excel，处理图片用png等。同样数据库中的表也有不同的的类型，表的类型不同，会对应不同的mysql处理机制，这些表类型就称为存储引擎。存储引擎说白了就是如何存储数据、如何为存储的数据建立索引和如何更新、查询数据等技术的实现方法。
 
-2. ##### MySQL 中都有哪些存储引擎，它们有什么区别
+2. ### MySQL 中都有哪些存储引擎，它们有什么区别
 
    在Windows中可以使用命令 `show engines`  查看所有的存储引擎  在Linux 中使用 `show engines\G` 查看所有存储引擎
 
@@ -31,7 +31,7 @@ ALERT DATABASE 数据库名 charset utf8  (修改数据库字符编码)
 
    `Inforbright` 特点是存储是按照行而非列的，适合 (OLAP) 的数据库应用。
 
-3. #####  `OLTP` 和`OLAP`的区别
+3. ###  `OLTP` 和`OLAP`的区别
 
    数据处理大致可以分成两大类：联机事务处理OLTP（on-line transaction processing）、联机分析处理OLAP（On-Line Analytical Processing）。OLTP是传统的关系型数据库的主要应用，主要是基本的、日常的事务处理，例如银行交易。OLAP是数据仓库系统的主要应用，支持复杂的分析操作，侧重决策支持，并且提供直观易懂的查询结果。
 
@@ -39,9 +39,9 @@ ALERT DATABASE 数据库名 charset utf8  (修改数据库字符编码)
 
    `OLAP` 联机分析处理系统，也就是数据仓库。所谓数据仓库是对于大量已经由OLTP形成的数据的一种分析型的数据库，用于处理商业智能、决策支持等重要的决策信息；数据仓库是在数据库应用到一定程序之后而对历史数据的加工与分析，读取较多，更新较少，(大数据)
 
-#### :three: 表操作:deciduous_tree:
+## :three: 表操作:deciduous_tree:
 
-1. ##### 表的基本操作
+1. ### 表的基本操作
 
    ```python 
    create databases db1 charset utf8; # 创建数据库
@@ -54,7 +54,7 @@ ALERT DATABASE 数据库名 charset utf8  (修改数据库字符编码)
    insert into t1 values (1,"bai","male",18),(2,"xiang","female",19); # 往t1表中插入数据
    ```
 
-2. ##### 数据库中的数据类型
+2. ### 数据库中的数据类型
 
    1. **数值类型**
 
@@ -79,7 +79,7 @@ ALERT DATABASE 数据库名 charset utf8  (修改数据库字符编码)
 
       set 多选  在给定的值当中选一个或者多个
 
-3. ##### 完整性约束
+3. ### 完整性约束
 
    ```python 
    NOT NULL & default # NULL NULL 不可为空，必须赋值，可指定默认值 default,不指定默认显示NULL
@@ -129,7 +129,7 @@ ALERT DATABASE 数据库名 charset utf8  (修改数据库字符编码)
        on update cascade);
    ```
 
-4. ##### 修改表 ALTER TABLE
+4. ### 修改表 ALTER TABLE
 
    ```python
    1) #修改存储引擎
@@ -153,7 +153,7 @@ ALERT DATABASE 数据库名 charset utf8  (修改数据库字符编码)
      	alter table student drop primary key;
    ```
 
-5. ##### 复制表
+5. ### 复制表
 
    ```python
    # 复制表结构+内容（key不会被复制，主键、外键和索引）
@@ -164,9 +164,9 @@ ALERT DATABASE 数据库名 charset utf8  (修改数据库字符编码)
    eg: drop table new_book;
    ```
 
-#### :four:  数据操作:deciduous_tree: 
+## :four:  数据操作:deciduous_tree: 
 
-1. ##### 单表查询
+1. ### 单表查询
 
    关键字执行优先级:ballot_box_with_check:
 
@@ -234,7 +234,7 @@ ALERT DATABASE 数据库名 charset utf8  (修改数据库字符编码)
    eg: select * from employee where name REGEXP '^jin.*[ng]$';
    ```
 
-2. ##### 多表查询
+2. ### 多表查询
 
    多表链接查询：
 
@@ -289,7 +289,7 @@ ALERT DATABASE 数据库名 charset utf8  (修改数据库字符编码)
        group by post) as t2 on t1.post = t2.post where t1.hire_date = t2.max_date;
    ```
 
-#### :five: 索引与慢查询优化:deciduous_tree:
+## :five: 索引与慢查询优化:deciduous_tree:
 
 1. 什么是索引？
 
@@ -344,7 +344,7 @@ ALERT DATABASE 数据库名 charset utf8  (修改数据库字符编码)
       这时候和与全表扫描的磁盘IO没有多大区别，所以速度会很慢。
    3）索引列不能参与计算
    ```
-####:six: 数据备份pymysql模块:deciduous_tree:
+##:six: 数据备份pymysql模块:deciduous_tree:
 
 1. 使用Mysqldump 实现逻辑备份
 
@@ -394,7 +394,7 @@ ALERT DATABASE 数据库名 charset utf8  (修改数据库字符编码)
      	res = cursor.execute(sql,[user,pwd])
    ```
 
-#### :seven: 视图、触发器、事务、存储过程、函数:deciduous_tree:
+## :seven: 视图、触发器、事务、存储过程、函数:deciduous_tree:
 
 1. **视图**
 
