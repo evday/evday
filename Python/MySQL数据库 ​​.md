@@ -95,10 +95,10 @@ ALERT DATABASE 数据库名 charset utf8  (修改数据库字符编码)
        not null,unique(host,port)) # 联合唯一
      
    PRIMARY KEY #主键primary key是innodb存储引擎组织数据的依据，innodb 称为索引组织表，一张表只有一个主键
-   # 单列主键
+   单列主键
    eg：create table department(id int primary key,name varchar(20),comment varchar(20))
    	 create table department(id int,name varchar(20),constraint pk_name primary key(id))
-   # 双列主键(不常用)
+   双列主键(不常用)
    eg: create table service(ip varchar(20),port char(5),service_name varchar(10) not null primary key(ip,port))
      	
    AUTO_INCREMENT #自增，且被约束字段同时被key约束
@@ -116,7 +116,7 @@ ALERT DATABASE 数据库名 charset utf8  (修改数据库字符编码)
    	#press_id外键，关联父表（press主键id），同步更新，同步删除
      	create table book(id int primary key auto_increment,name varchar(20),press_id int not null,foreign key(press_id) 
       references press(id)on delete cascadeon update cascade);
-   # 多对多
+   多对多
    eg: create table author(id int primary key auto_increment,name varchar(20));
      	# 存放多对多关系(第三张表)
        create table author2book(id int not null unique auto_increment,author_id int not null,
@@ -125,7 +125,7 @@ ALERT DATABASE 数据库名 charset utf8  (修改数据库字符编码)
        update cascade,primary key(author_id,book_id));
      	# 给 author 插入数据
        insert into author(name) values('bai'),('xiang'),('laozhongyi'),('huazai');
-      # 一对一 学生一定是一个客户，客户不一定是学生，但有可能成为学习
+   一对一 学生一定是一个客户，客户不一定是学生，但有可能成为学习
    eg: create table customer(id int primary key auto_increment,name varchar(20) not null,qq varchar(20) not null,phone 
        char(11) not null);
      	 create table student(id int primary key auto_increment,class_name varchar(20) not null,
