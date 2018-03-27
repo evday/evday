@@ -1,5 +1,9 @@
 # MySQL数据库 :four_leaf_clover:
 
+## Table of contents
+
+<extoc></extoc>
+
 ## :one: 库操作:deciduous_tree:
 
 ```python

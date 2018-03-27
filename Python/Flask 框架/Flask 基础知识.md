@@ -2,6 +2,10 @@
 
 Flask 是一个基于Python 开发，依赖于`jinjia2` 模板引擎 和 `Werkzeug WSGI`  服务的微型web开发框架。
 
+## Table of contents
+
+<extoc></extoc>
+
 ## 启动Flask :deciduous_tree:
 
 ```python
