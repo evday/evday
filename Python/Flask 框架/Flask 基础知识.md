@@ -226,21 +226,21 @@ from flask import Flask
     def login():
 
         # 请求相关信息
-        # request.method
-        # request.args
-        # request.form
-        # request.values
-        # request.cookies
-        # request.headers
-        # request.path
-        # request.full_path
+        # request.method   请求方法
+        # request.args     url参数
+        # request.form     POST和PUT请求解析的 MultiDict（一键多值字典）。
+        # request.values   CombinedMultiDict，内容是form和args
+        # request.cookies  请求的cookies，类型是dict。
+        # request.headers  请求头，字典类型。
+        # request.path     路径
+        # request.full_path  全路径
         # request.script_root
-        # request.url
+        # request.url 
         # request.base_url
         # request.url_root
         # request.host_url
-        # request.host
-        # request.files
+        # request.host   
+        # request.files  # 文件
         # obj = request.files['the_file_name']
         # obj.save('/var/www/uploads/' + secure_filename(f.filename))
 
@@ -263,23 +263,134 @@ from flask import Flask
         app.run()
 ```
 
+## 模板:deciduous_tree:
 
+### 防止xss 攻击:palm_tree:
 
+```python
+# 后端代码实现,django 用的是make_safe
+return Makeup("<h1>hello world</h1>")
+# 前端代码实现,用法同django 
+{{ str|safe }}
+```
 
+### jinjia2 视图支持传递函数，函数可以传参:palm_tree:
 
+```python 
+def test(a,b)
+	return a+b
+@app.route("/index")
+def index():
+  	return render_template('index.html',test=test)
+# index.html
+{{ test(1,2) }}
+```
 
+### `template_global&template_filter`  :palm_tree:
 
+```python 
+@app.template_global()
+def sb(a1, a2):
+    return a1 + a2
+@app.template_filter()
+def db(a1, a2, a3):
+    return a1 + a2 + a3
+# 使用
+{sb(1,2)}}  {{ 1|db(2,3)}}
+```
 
+### `Flask` 中的宏:palm_tree:
 
+```python 
+{% macro page(data) -%}  # 这是一个分页的宏
+{% if data %}
+<ul class="pagination pagination-sm no-margin pull-right">
+    <li><a href="?page=1">首页</a></li>
 
+    {% if data.has_prev %}
+    <li><a href="?page={{ data.prev_num }}">上一页</a></li>
+    {% else %}
+    <li class="disabled"><a href="#">上一页</a></li>
+    {% endif %}
 
+    {% for v in data.iter_pages() %}
+        {% if v == data.page %}
+        <li class="active"><a href="">{{ v }}</a></li>
+        {% else %}<li ><a href="?page={{ v }}">{{ v }}</a></li>
+        {% endif %}
+    {% endfor %}
 
+    {% if data.has_next %}
+    <li><a href="?page={{ data.next_num }}">下一页</a></li>
+    {% else %}
+    <li class="disabled"><a href="#">下一页</a></li>
+    {% endif %}
 
+    <li><a href="?page={{ data.pages }}">尾页</a></li>
+</ul>
+{% endif %}
+{%- endmacro %}
+```
 
+## 蓝图:deciduous_tree:
 
+```python 
+# admin 文件夹中的__init__ 文件
+from flask import Blueprint
+admin = Blueprint('admin',__name__)
+from . import views
 
+# app 文件夹中的__init__ 文件
+from flask  import Flask 
+app = Flask(__name__)
+from .admin import admin as admin_blueprint
+app.register_blueprint(admin_blueprint,url_prefix = '/admin') # url_prefix 前缀
+```
 
+## `session ` :deciduous_tree:
 
+```python
+# 除请求对象之外，还有一个 session 对象。它允许你在不同请求间存储特定用户的信息。它是在 Cookies 的基础上实现的，并且对 Cookies 进行密钥签名要使用会话，你需要设置一个密钥。
+from flask import session,Flask 
+app.secret_key = "hello world"
+@app.route("/")
+def login():
+  	session["user"] = "xiang"  # 设置session
+    del session["user"] # 删除session 
+if __name__ == "__main__":
+	app.run()
+```
 
+## 闪现:deciduous_tree:
 
+```python
+# flash 本质由session创建，取一次就没有了，相当于pop掉了
+flash("角色已存在!","err")  # 后台代码
+{% for msg in get_flashed_messages(category_filter=["ok"]) %}  # 可以传状态，提示错误或者成功
+                                <div class="alert alert-success alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×
+                                    </button>
+                                    <h4><i class="icon fa fa-check"></i> 操作成功</h4>
+                                    {{ msg }}
+                                </div>
+                            {% endfor %}
+                            {% for msg in get_flashed_messages(category_filter=["err"]) %}
+                                <div class="alert alert-danger alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×
+                                    </button>
+                                    <h4><i class="icon fa fa-check"></i> 操作失败</h4>
+                                    {{ msg }}
+                                </div>
+                            {% endfor %}
+```
 
+## 伪中间件:deciduous_tree:
+
+```python 
+# 在flask 中并没有类似与Django的中间件，而是通过三个特殊的装饰器来做类似中间件的功能
+@app.before_first_request   # 当程序运行起来，第一个请求来的时候就只执行一次，下次再来就不会在执行了
+@app.before_request # 请求之前
+@app.after_request  # 请求之后
+
+# 可以在这里对用户的权限做验证
+```
